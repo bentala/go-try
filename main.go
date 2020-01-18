@@ -10,20 +10,28 @@ const (
 )
 
 func main() {
+	go os.Exit(start())
+}
+
+func start() int {
 	var pos Position
 	fmt.Println("[Starting]") // Info Starting Program
 	_, _ = fmt.Scanf("%d %d %s", &pos.X, &pos.Y, &pos.Direction)
+	fmt.Print("")
 	var command string
 	_, _ = fmt.Scanf("%s", &command)
+	fmt.Print("")
 	status := SelectCommand(command, &pos)
-	if status == "exit" {
-		fmt.Println("[Close]") // Info Closing Program
-		os.Exit(0)
+	for {
+		if status == "exit" {
+			fmt.Println("[Close]") // Info Closing Program
+			return 1
+		}
+		fmt.Println(pos.X, pos.Y, pos.Direction)
+		_, _ = fmt.Scanf("%s", &command)
+		fmt.Print("")
+		status = SelectCommand(command, &pos)
 	}
-	fmt.Println(pos.X, pos.Y, pos.Direction)
-	fmt.Println("[Close]") // Info Closing Program
-	os.Exit(0)
-
 }
 
 func SelectCommand(command string, pos *Position) string {
